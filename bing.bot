@@ -1,0 +1,39 @@
+// ==UserScript==
+// @name         BingBot
+// @namespace    http://tampermonkey.net/
+// @version      0.1
+// @description  try to take over the world!
+// @author       Laima
+// @match        https://www.bing.com/*
+// @icon         data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
+// @grant        none
+// ==/UserScript==
+
+let keywords=["Куда поехать отдыхать в октябре 2022", "Лучшие отели", "Необычные отели"];
+let keyword = keywords[getRandom(0, keywords.length)];
+let links=document.links;
+let form = document.getElementById("sb_form_q");
+let btn = document.getElementById("sb_form_go");
+let event = new MouseEvent("click");
+
+
+if(sb_form_q !== undefined) {
+//form.focus();
+  form.dispatchEvent(event);
+  setTimeout(()=>{form.value=keyword;}, 1000);
+  setTimeout(()=>{btn.dispatchEvent(event)}, 3000);
+//Нужно допилить все, что ниже  
+} else {
+  for (let i = 0; i < links.length; i++) {
+    if (links[i].href.indexOf("tourister.ru") !== -1) {
+      let link=links[i];
+      console.log("Нашел строку " + links[i]);
+      link.click();
+      break;
+    }
+  }
+}
+
+function getRandom(min,max) {
+  return Math.floor(Math.random() * (max-min) + min);
+}
